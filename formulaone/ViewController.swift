@@ -24,7 +24,7 @@ class ViewController: UITableViewController {
                 self?.returnedSeasonRaces = data
                 DispatchQueue.main.async { [weak self] in
                     let season = self?.returnedSeasonRaces?.season ?? "Unknow Season"
-                    self?.title = "\(season) Races"
+                    self?.title = "\(season) Races \u{1F3CE}"
                     self?.tableView.reloadData()
                 }
             case .failure(let error):
@@ -131,10 +131,12 @@ class RaceTableViewCell: UITableViewCell {
     
     func configure(with race: Race) {
         
-        
-        raceRoundLabel.text = "Round \(race.round)"
+        let countryCode = isoCountryCode(fromCountryName: race.circuit.location.country)
+        let flagEmoji = countryCode.flatMap { countryFlagEmoji(fromCountryCode: $0) } ?? ""
+        raceRoundLabel.text = "\(flagEmoji)  Round \(race.round)"
         raceRoundLabel.font = UIFont.systemFont(ofSize: 11)
         raceRoundLabel.textColor = .gray
+        
         if let dayRemaining = daysUntil(dateString: race.date) {
             raceDateLabel.text = "\(String(describing: dayRemaining)) days until the race"
         } else {
@@ -171,6 +173,50 @@ class RaceTableViewCell: UITableViewCell {
         
         return components.day
     }
+}
+
+func countryFlagEmoji(fromCountryCode countryCode: String) -> String {
+    return countryCode
+        .unicodeScalars
+        .map { 127397 + $0.value }
+        .compactMap(UnicodeScalar.init)
+        .map(String.init)
+        .joined()
+}
+
+func isoCountryCode(fromCountryName countryName: String) -> String? {
+    let specialCases: [String: String] = [
+        "UAE": "AE",
+        "USA": "US",
+        "UK": "GB", // GB est le code ISO pour le Royaume-Uni (United Kingdom)
+        "China": "CN"
+    ]
+    
+    if let specialCode = specialCases[countryName] {
+        return specialCode
+    }
+    
+    let currentLocale = Locale.current
+
+    if #available(iOS 16.0, *) {
+        for region in Locale.Region.isoRegions {
+            if let localizedCountryName = currentLocale.localizedString(forRegionCode: region.identifier),
+               localizedCountryName == countryName {
+                return region.identifier
+            }
+        }
+    } else {
+        // Pour les versions iOS antérieures à iOS 16, utilisez l'approche précédente
+        let countryCodes = Locale.isoRegionCodes
+        for code in countryCodes {
+            if let localizedCountryName = currentLocale.localizedString(forRegionCode: code),
+               localizedCountryName == countryName {
+                return code
+            }
+        }
+    }
+
+    return nil
 }
 
 struct F1ApiResponse: Decodable {
