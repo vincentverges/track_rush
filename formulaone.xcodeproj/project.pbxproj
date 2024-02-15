@@ -14,6 +14,30 @@
 		0A17234C2B73D4A700A4CBD8 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0A17234B2B73D4A700A4CBD8 /* Assets.xcassets */; };
 		0A17234F2B73D4A700A4CBD8 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0A17234D2B73D4A700A4CBD8 /* LaunchScreen.storyboard */; };
 		0ABC83DB2B7E5E0C000A09EE /* DetailRaceViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0ABC83DA2B7E5E0C000A09EE /* DetailRaceViewController.swift */; };
+		0ABC83F52B7EA9FD000A09EE /* baku.avif in Resources */ = {isa = PBXBuildFile; fileRef = 0ABC83DD2B7EA9FD000A09EE /* baku.avif */; };
+		0ABC83F62B7EA9FD000A09EE /* miami.avif in Resources */ = {isa = PBXBuildFile; fileRef = 0ABC83DE2B7EA9FD000A09EE /* miami.avif */; };
+		0ABC83F72B7EA9FD000A09EE /* monaco.avif in Resources */ = {isa = PBXBuildFile; fileRef = 0ABC83DF2B7EA9FD000A09EE /* monaco.avif */; };
+		0ABC83F82B7EA9FD000A09EE /* interlagos.avif in Resources */ = {isa = PBXBuildFile; fileRef = 0ABC83E02B7EA9FD000A09EE /* interlagos.avif */; };
+		0ABC83F92B7EA9FD000A09EE /* albert_park.avif in Resources */ = {isa = PBXBuildFile; fileRef = 0ABC83E12B7EA9FD000A09EE /* albert_park.avif */; };
+		0ABC83FA2B7EA9FD000A09EE /* rodriguez.avif in Resources */ = {isa = PBXBuildFile; fileRef = 0ABC83E22B7EA9FD000A09EE /* rodriguez.avif */; };
+		0ABC83FB2B7EA9FD000A09EE /* marina_bay.avif in Resources */ = {isa = PBXBuildFile; fileRef = 0ABC83E32B7EA9FD000A09EE /* marina_bay.avif */; };
+		0ABC83FC2B7EA9FD000A09EE /* silverstone.avif in Resources */ = {isa = PBXBuildFile; fileRef = 0ABC83E42B7EA9FD000A09EE /* silverstone.avif */; };
+		0ABC83FD2B7EA9FD000A09EE /* vegas.avif in Resources */ = {isa = PBXBuildFile; fileRef = 0ABC83E52B7EA9FD000A09EE /* vegas.avif */; };
+		0ABC83FE2B7EA9FD000A09EE /* villeneuve.avif in Resources */ = {isa = PBXBuildFile; fileRef = 0ABC83E62B7EA9FD000A09EE /* villeneuve.avif */; };
+		0ABC83FF2B7EA9FD000A09EE /* losail.avif in Resources */ = {isa = PBXBuildFile; fileRef = 0ABC83E72B7EA9FD000A09EE /* losail.avif */; };
+		0ABC84002B7EA9FD000A09EE /* bahrain.avif in Resources */ = {isa = PBXBuildFile; fileRef = 0ABC83E82B7EA9FD000A09EE /* bahrain.avif */; };
+		0ABC84012B7EA9FD000A09EE /* monza.avif in Resources */ = {isa = PBXBuildFile; fileRef = 0ABC83E92B7EA9FD000A09EE /* monza.avif */; };
+		0ABC84022B7EA9FD000A09EE /* jeddah.avif in Resources */ = {isa = PBXBuildFile; fileRef = 0ABC83EA2B7EA9FD000A09EE /* jeddah.avif */; };
+		0ABC84032B7EA9FD000A09EE /* catalunya.avif in Resources */ = {isa = PBXBuildFile; fileRef = 0ABC83EB2B7EA9FD000A09EE /* catalunya.avif */; };
+		0ABC84042B7EA9FD000A09EE /* red_bull_ring.avif in Resources */ = {isa = PBXBuildFile; fileRef = 0ABC83EC2B7EA9FD000A09EE /* red_bull_ring.avif */; };
+		0ABC84052B7EA9FD000A09EE /* zandvoort.avif in Resources */ = {isa = PBXBuildFile; fileRef = 0ABC83ED2B7EA9FD000A09EE /* zandvoort.avif */; };
+		0ABC84062B7EA9FD000A09EE /* hungaroring.avif in Resources */ = {isa = PBXBuildFile; fileRef = 0ABC83EE2B7EA9FD000A09EE /* hungaroring.avif */; };
+		0ABC84072B7EA9FD000A09EE /* americas.avif in Resources */ = {isa = PBXBuildFile; fileRef = 0ABC83EF2B7EA9FD000A09EE /* americas.avif */; };
+		0ABC84082B7EA9FD000A09EE /* yas_marina.avif in Resources */ = {isa = PBXBuildFile; fileRef = 0ABC83F02B7EA9FD000A09EE /* yas_marina.avif */; };
+		0ABC84092B7EA9FD000A09EE /* suzuka.avif in Resources */ = {isa = PBXBuildFile; fileRef = 0ABC83F12B7EA9FD000A09EE /* suzuka.avif */; };
+		0ABC840A2B7EA9FD000A09EE /* spa.avif in Resources */ = {isa = PBXBuildFile; fileRef = 0ABC83F22B7EA9FD000A09EE /* spa.avif */; };
+		0ABC840B2B7EA9FD000A09EE /* imola.avif in Resources */ = {isa = PBXBuildFile; fileRef = 0ABC83F32B7EA9FD000A09EE /* imola.avif */; };
+		0ABC840C2B7EA9FD000A09EE /* shanghai.avif in Resources */ = {isa = PBXBuildFile; fileRef = 0ABC83F42B7EA9FD000A09EE /* shanghai.avif */; };
 		672E2029175FE201DA045A51 /* Pods_formulaone.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 563F4186EC41F4A35549DB11 /* Pods_formulaone.framework */; };
 /* End PBXBuildFile section */
 
@@ -27,6 +51,30 @@
 		0A17234E2B73D4A700A4CBD8 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		0A1723502B73D4A700A4CBD8 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		0ABC83DA2B7E5E0C000A09EE /* DetailRaceViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailRaceViewController.swift; sourceTree = "<group>"; };
+		0ABC83DD2B7EA9FD000A09EE /* baku.avif */ = {isa = PBXFileReference; lastKnownFileType = file; path = baku.avif; sourceTree = "<group>"; };
+		0ABC83DE2B7EA9FD000A09EE /* miami.avif */ = {isa = PBXFileReference; lastKnownFileType = file; path = miami.avif; sourceTree = "<group>"; };
+		0ABC83DF2B7EA9FD000A09EE /* monaco.avif */ = {isa = PBXFileReference; lastKnownFileType = file; path = monaco.avif; sourceTree = "<group>"; };
+		0ABC83E02B7EA9FD000A09EE /* interlagos.avif */ = {isa = PBXFileReference; lastKnownFileType = file; path = interlagos.avif; sourceTree = "<group>"; };
+		0ABC83E12B7EA9FD000A09EE /* albert_park.avif */ = {isa = PBXFileReference; lastKnownFileType = file; path = albert_park.avif; sourceTree = "<group>"; };
+		0ABC83E22B7EA9FD000A09EE /* rodriguez.avif */ = {isa = PBXFileReference; lastKnownFileType = file; path = rodriguez.avif; sourceTree = "<group>"; };
+		0ABC83E32B7EA9FD000A09EE /* marina_bay.avif */ = {isa = PBXFileReference; lastKnownFileType = file; path = marina_bay.avif; sourceTree = "<group>"; };
+		0ABC83E42B7EA9FD000A09EE /* silverstone.avif */ = {isa = PBXFileReference; lastKnownFileType = file; path = silverstone.avif; sourceTree = "<group>"; };
+		0ABC83E52B7EA9FD000A09EE /* vegas.avif */ = {isa = PBXFileReference; lastKnownFileType = file; path = vegas.avif; sourceTree = "<group>"; };
+		0ABC83E62B7EA9FD000A09EE /* villeneuve.avif */ = {isa = PBXFileReference; lastKnownFileType = file; path = villeneuve.avif; sourceTree = "<group>"; };
+		0ABC83E72B7EA9FD000A09EE /* losail.avif */ = {isa = PBXFileReference; lastKnownFileType = file; path = losail.avif; sourceTree = "<group>"; };
+		0ABC83E82B7EA9FD000A09EE /* bahrain.avif */ = {isa = PBXFileReference; lastKnownFileType = file; path = bahrain.avif; sourceTree = "<group>"; };
+		0ABC83E92B7EA9FD000A09EE /* monza.avif */ = {isa = PBXFileReference; lastKnownFileType = file; path = monza.avif; sourceTree = "<group>"; };
+		0ABC83EA2B7EA9FD000A09EE /* jeddah.avif */ = {isa = PBXFileReference; lastKnownFileType = file; path = jeddah.avif; sourceTree = "<group>"; };
+		0ABC83EB2B7EA9FD000A09EE /* catalunya.avif */ = {isa = PBXFileReference; lastKnownFileType = file; path = catalunya.avif; sourceTree = "<group>"; };
+		0ABC83EC2B7EA9FD000A09EE /* red_bull_ring.avif */ = {isa = PBXFileReference; lastKnownFileType = file; path = red_bull_ring.avif; sourceTree = "<group>"; };
+		0ABC83ED2B7EA9FD000A09EE /* zandvoort.avif */ = {isa = PBXFileReference; lastKnownFileType = file; path = zandvoort.avif; sourceTree = "<group>"; };
+		0ABC83EE2B7EA9FD000A09EE /* hungaroring.avif */ = {isa = PBXFileReference; lastKnownFileType = file; path = hungaroring.avif; sourceTree = "<group>"; };
+		0ABC83EF2B7EA9FD000A09EE /* americas.avif */ = {isa = PBXFileReference; lastKnownFileType = file; path = americas.avif; sourceTree = "<group>"; };
+		0ABC83F02B7EA9FD000A09EE /* yas_marina.avif */ = {isa = PBXFileReference; lastKnownFileType = file; path = yas_marina.avif; sourceTree = "<group>"; };
+		0ABC83F12B7EA9FD000A09EE /* suzuka.avif */ = {isa = PBXFileReference; lastKnownFileType = file; path = suzuka.avif; sourceTree = "<group>"; };
+		0ABC83F22B7EA9FD000A09EE /* spa.avif */ = {isa = PBXFileReference; lastKnownFileType = file; path = spa.avif; sourceTree = "<group>"; };
+		0ABC83F32B7EA9FD000A09EE /* imola.avif */ = {isa = PBXFileReference; lastKnownFileType = file; path = imola.avif; sourceTree = "<group>"; };
+		0ABC83F42B7EA9FD000A09EE /* shanghai.avif */ = {isa = PBXFileReference; lastKnownFileType = file; path = shanghai.avif; sourceTree = "<group>"; };
 		563F4186EC41F4A35549DB11 /* Pods_formulaone.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_formulaone.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		B1F2150252526470892B7624 /* Pods-formulaone.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-formulaone.debug.xcconfig"; path = "Target Support Files/Pods-formulaone/Pods-formulaone.debug.xcconfig"; sourceTree = "<group>"; };
 		D1AF2AC784BF0FE357E374D4 /* Pods-formulaone.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-formulaone.release.xcconfig"; path = "Target Support Files/Pods-formulaone/Pods-formulaone.release.xcconfig"; sourceTree = "<group>"; };
@@ -73,8 +121,40 @@
 				0A17234B2B73D4A700A4CBD8 /* Assets.xcassets */,
 				0A17234D2B73D4A700A4CBD8 /* LaunchScreen.storyboard */,
 				0A1723502B73D4A700A4CBD8 /* Info.plist */,
+				0ABC83DC2B7EA9FD000A09EE /* tracks */,
 			);
 			path = formulaone;
+			sourceTree = "<group>";
+		};
+		0ABC83DC2B7EA9FD000A09EE /* tracks */ = {
+			isa = PBXGroup;
+			children = (
+				0ABC83DD2B7EA9FD000A09EE /* baku.avif */,
+				0ABC83DE2B7EA9FD000A09EE /* miami.avif */,
+				0ABC83DF2B7EA9FD000A09EE /* monaco.avif */,
+				0ABC83E02B7EA9FD000A09EE /* interlagos.avif */,
+				0ABC83E12B7EA9FD000A09EE /* albert_park.avif */,
+				0ABC83E22B7EA9FD000A09EE /* rodriguez.avif */,
+				0ABC83E32B7EA9FD000A09EE /* marina_bay.avif */,
+				0ABC83E42B7EA9FD000A09EE /* silverstone.avif */,
+				0ABC83E52B7EA9FD000A09EE /* vegas.avif */,
+				0ABC83E62B7EA9FD000A09EE /* villeneuve.avif */,
+				0ABC83E72B7EA9FD000A09EE /* losail.avif */,
+				0ABC83E82B7EA9FD000A09EE /* bahrain.avif */,
+				0ABC83E92B7EA9FD000A09EE /* monza.avif */,
+				0ABC83EA2B7EA9FD000A09EE /* jeddah.avif */,
+				0ABC83EB2B7EA9FD000A09EE /* catalunya.avif */,
+				0ABC83EC2B7EA9FD000A09EE /* red_bull_ring.avif */,
+				0ABC83ED2B7EA9FD000A09EE /* zandvoort.avif */,
+				0ABC83EE2B7EA9FD000A09EE /* hungaroring.avif */,
+				0ABC83EF2B7EA9FD000A09EE /* americas.avif */,
+				0ABC83F02B7EA9FD000A09EE /* yas_marina.avif */,
+				0ABC83F12B7EA9FD000A09EE /* suzuka.avif */,
+				0ABC83F22B7EA9FD000A09EE /* spa.avif */,
+				0ABC83F32B7EA9FD000A09EE /* imola.avif */,
+				0ABC83F42B7EA9FD000A09EE /* shanghai.avif */,
+			);
+			path = tracks;
 			sourceTree = "<group>";
 		};
 		71744C6D12EF9D7C9988CE98 /* Frameworks */ = {
@@ -154,9 +234,33 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0ABC84032B7EA9FD000A09EE /* catalunya.avif in Resources */,
+				0ABC84052B7EA9FD000A09EE /* zandvoort.avif in Resources */,
+				0ABC83FD2B7EA9FD000A09EE /* vegas.avif in Resources */,
+				0ABC840A2B7EA9FD000A09EE /* spa.avif in Resources */,
+				0ABC840B2B7EA9FD000A09EE /* imola.avif in Resources */,
+				0ABC83FB2B7EA9FD000A09EE /* marina_bay.avif in Resources */,
+				0ABC84042B7EA9FD000A09EE /* red_bull_ring.avif in Resources */,
+				0ABC83FC2B7EA9FD000A09EE /* silverstone.avif in Resources */,
+				0ABC84072B7EA9FD000A09EE /* americas.avif in Resources */,
+				0ABC84012B7EA9FD000A09EE /* monza.avif in Resources */,
+				0ABC83F52B7EA9FD000A09EE /* baku.avif in Resources */,
+				0ABC83FE2B7EA9FD000A09EE /* villeneuve.avif in Resources */,
+				0ABC83F62B7EA9FD000A09EE /* miami.avif in Resources */,
+				0ABC84022B7EA9FD000A09EE /* jeddah.avif in Resources */,
+				0ABC84082B7EA9FD000A09EE /* yas_marina.avif in Resources */,
+				0ABC84062B7EA9FD000A09EE /* hungaroring.avif in Resources */,
+				0ABC84002B7EA9FD000A09EE /* bahrain.avif in Resources */,
+				0ABC83F72B7EA9FD000A09EE /* monaco.avif in Resources */,
+				0ABC83F92B7EA9FD000A09EE /* albert_park.avif in Resources */,
+				0ABC840C2B7EA9FD000A09EE /* shanghai.avif in Resources */,
 				0A17234F2B73D4A700A4CBD8 /* LaunchScreen.storyboard in Resources */,
+				0ABC84092B7EA9FD000A09EE /* suzuka.avif in Resources */,
+				0ABC83FF2B7EA9FD000A09EE /* losail.avif in Resources */,
 				0A17234C2B73D4A700A4CBD8 /* Assets.xcassets in Resources */,
+				0ABC83F82B7EA9FD000A09EE /* interlagos.avif in Resources */,
 				0A17234A2B73D4A600A4CBD8 /* Main.storyboard in Resources */,
+				0ABC83FA2B7EA9FD000A09EE /* rodriguez.avif in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

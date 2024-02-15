@@ -40,6 +40,7 @@ class ViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "RaceCell", for: indexPath) as! RaceTableViewCell
         if let race = returnedSeasonRaces?.races[indexPath.row] {
+            print(race.circuit.circuitId)
             cell.configure(with: race)
         }
         return cell
