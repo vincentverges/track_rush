@@ -8,22 +8,31 @@
 import UIKit
 
 class DetailRaceViewController: UIViewController {
-
+    @IBOutlet var imageView: UIImageView!
+    
+    var selectedRace: Race?
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        // Do any additional setup after loading the view.
+        title = selectedRace?.raceName
+        
+        if let selectedRace = selectedRace {
+            let imageName = "\(selectedRace.circuit.circuitId).png"
+            //print(imageName)
+            imageView.image = UIImage(named: imageName)
+        }
+        
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+            super.viewWillAppear(animated)
+            navigationController?.hidesBarsOnTap = true
+        }
 
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
-    }
-    */
+    override func viewWillDisappear(_ animated: Bool) {
+            super.viewWillDisappear(animated)
+            navigationController?.hidesBarsOnTap = false
+        }
 
 }

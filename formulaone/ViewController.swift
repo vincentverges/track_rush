@@ -20,7 +20,7 @@ class ViewController: UITableViewController {
         fetchAPI { [weak self] result in
             switch result {
             case .success(let data):
-                print("Data Receveid")
+                //print("Data Receveid")
                 self?.returnedSeasonRaces = data
                 DispatchQueue.main.async { [weak self] in
                     let season = self?.returnedSeasonRaces?.season ?? "Unknow Season"
@@ -40,12 +40,18 @@ class ViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "RaceCell", for: indexPath) as! RaceTableViewCell
         if let race = returnedSeasonRaces?.races[indexPath.row] {
-            print(race.circuit.circuitId)
+            //print(race.circuit.circuitId)
             cell.configure(with: race)
         }
         return cell
     }
     
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        if let vc = storyboard?.instantiateViewController(withIdentifier: "Detail") as? DetailRaceViewController {
+            vc.selectedRace = returnedSeasonRaces?.races[indexPath.row]
+            navigationController?.pushViewController(vc, animated: true)
+        }
+    }
     
     func fetchAPI(completion: @escaping (Result<RaceTable, Error>) -> Void) {
         
