@@ -10,15 +10,15 @@ import UIKit
 class DetailRaceViewController: UIViewController {
     @IBOutlet var imageView: UIImageView!
     
-    var selectedRace: Race?
+    var selectedRace: Meeting?
     
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        title = selectedRace?.raceName
+        title = selectedRace?.meetingName
         
         if let selectedRace = selectedRace {
-            let imageName = "\(selectedRace.circuit.circuitId).png"
+            let imageName = "\(selectedRace.circuitKey).png"
             //print(imageName)
             imageView.image = UIImage(named: imageName)
         }

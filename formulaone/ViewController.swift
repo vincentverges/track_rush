@@ -8,10 +8,21 @@
 import UIKit
 import Foundation
 
+extension DateFormatter {
+    static let iso8601Full: DateFormatter = {
+        let formatter = DateFormatter()
+        formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss"
+        formatter.calendar = Calendar(identifier: .iso8601)
+        formatter.timeZone = TimeZone(secondsFromGMT: 0)
+        formatter.locale = Locale(identifier: "en_US_POSIX")
+        return formatter
+    }()
+}
+
 class ViewController: UITableViewController {
     
-    var returnedSeasonRaces: RaceTable?
-
+    var meetingsResponse: [Meeting]?
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -21,10 +32,10 @@ class ViewController: UITableViewController {
             switch result {
             case .success(let data):
                 //print("Data Receveid")
-                self?.returnedSeasonRaces = data
+                self?.meetingsResponse = data
                 DispatchQueue.main.async { [weak self] in
-                    let season = self?.returnedSeasonRaces?.season ?? "Unknow Season"
-                    self?.title = "\(season) Races \u{1F3CE}"
+                    //let season = self?.returnedSeasonRaces?.season ?? "Unknow Season"
+                    self?.title = "2023 Races \u{1F3CE}"
                     self?.tableView.reloadData()
                 }
             case .failure(let error):
@@ -34,74 +45,70 @@ class ViewController: UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return returnedSeasonRaces?.races.count ?? 0
+        return meetingsResponse?.count ?? 0
     }
-
+    
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "RaceCell", for: indexPath) as! RaceTableViewCell
-        if let race = returnedSeasonRaces?.races[indexPath.row] {
+        if let meeting = meetingsResponse?[indexPath.row] {
             //print(race.circuit.circuitId)
-            cell.configure(with: race)
+            cell.configure(with: meeting)
         }
         return cell
     }
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if let vc = storyboard?.instantiateViewController(withIdentifier: "Detail") as? DetailRaceViewController {
-            vc.selectedRace = returnedSeasonRaces?.races[indexPath.row]
+            vc.selectedRace = meetingsResponse?[indexPath.row]
             navigationController?.pushViewController(vc, animated: true)
         }
     }
     
-    func fetchAPI(completion: @escaping (Result<RaceTable, Error>) -> Void) {
+    func fetchAPI(completion: @escaping (Result<[Meeting], Error>) -> Void) {
+        guard let url = URL(string: "https://api.openf1.org/v1/meetings") else {
+            completion(.failure(NSError(domain: "InvalidURLErrorDomain", code: 0, userInfo: nil)))
+            return
+        }
         
-        if let url = URL(string: "https://ergast.com/api/f1/2024.json") {
-            let session = URLSession.shared
-            let task = session.dataTask(with: url) { [weak self] (data, response, error) in
-                
-                guard self != nil else {
-                    return
-                }
-                
-                if let error = error {
-                    completion(.failure(error))
-                    return
-                }
-                
-                guard let httpResponse = response as? HTTPURLResponse else {
-                    completion(.failure(NSError(domain: "HTTPErrorDomain", code: 0, userInfo: nil)))
-                    return
-                }
-                
-                //print("HTTP RESPONSE STATUS CODE: \(httpResponse.statusCode)")
-                      
-                guard httpResponse.statusCode == 200 else {
-                    completion(.failure(NSError(domain: "HTTPErrorDomain", code: httpResponse.statusCode, userInfo: nil)))
-                    return
-                }
-                
-                guard let data = data else {
-                    completion(.failure(NSError(domain: "HTTPErrorDomain", code: 0, userInfo: nil)))
-                    return
-                }
-                
-                //print("Receveid Data: \(String(data: data, encoding: .utf8) ?? "")")
+        let session = URLSession.shared
+        let task = session.dataTask(with: url) {(data, response, error) in
+            if let error = error {
+                completion(.failure(error))
+                return
+            }
+            
+            guard let httpResponse = response as? HTTPURLResponse, httpResponse.statusCode == 200 else {
+                completion(.failure(NSError(domain: "HTTPErrorDomain", code: 0, userInfo: nil)))
+                return
+            }
+            
+            guard let data = data else {
+                completion(.failure(NSError(domain: "DataErrorDomain", code: 0, userInfo: nil)))
+                return
+            }
+            
+            //print("Receveid Data: \(String(data: data, encoding: .utf8) ?? "")")
+            
+            do {
+                let jsonDecoder = JSONDecoder()
+                jsonDecoder.keyDecodingStrategy = .convertFromSnakeCase
+                jsonDecoder.dateDecodingStrategy = .formatted(DateFormatter.iso8601Full)
                 
                 do {
-                    let jsonDecoder = JSONDecoder()
-                    let decodeData = try jsonDecoder.decode(F1ApiResponse.self, from: data)
-                    completion(.success(decodeData.mrData.raceTable))
+                    let decodeData = try jsonDecoder.decode([Meeting].self, from: data)
+                    completion(.success(decodeData))
                 } catch {
+                    print("Decoding error: \(error)")
                     completion(.failure(error))
                 }
             }
-            task.resume()
-        } else {
-            completion(.failure(NSError(domain: "InvalidURLErrorDomain", code: 0, userInfo: nil)))
         }
-        
+        task.resume()
     }
+    
 }
+
+
 
 class RaceTableViewCell: UITableViewCell {
     let raceRoundLabel = UILabel()
@@ -121,65 +128,73 @@ class RaceTableViewCell: UITableViewCell {
         contentView.addSubview(stackView)
         
         NSLayoutConstraint.activate([
-                    stackView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 5),
-                    stackView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -5),
-                    stackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
-                    stackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16)
-                ])
-                
-                [raceRoundLabel, raceDateLabel, raceNameLabel, raceCircuitNameLabel, raceLocationLabel].forEach { label in
-                    label.numberOfLines = 0
-                }
+            stackView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 5),
+            stackView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -5),
+            stackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
+            stackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16)
+        ])
+        
+        [raceRoundLabel, raceDateLabel, raceNameLabel, raceCircuitNameLabel, raceLocationLabel].forEach { label in
+            label.numberOfLines = 0
+        }
     }
     
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func configure(with race: Race) {
+    func configure(with meeting: Meeting) {
         
-        let countryCode = isoCountryCode(fromCountryName: race.circuit.location.country)
+        let countryCode = isoCountryCode(fromCountryName: meeting.countryName)
         let flagEmoji = countryCode.flatMap { countryFlagEmoji(fromCountryCode: $0) } ?? ""
-        raceRoundLabel.text = "\(flagEmoji)  Round \(race.round)"
-        raceRoundLabel.font = UIFont.systemFont(ofSize: 11)
+        raceRoundLabel.text = "\(flagEmoji) \(meeting.meetingOfficialName)"
+        raceRoundLabel.font = UIFont.systemFont(ofSize: 10)
         raceRoundLabel.textColor = .gray
         
-        if let dayRemaining = daysUntil(dateString: race.date) {
-            raceDateLabel.text = "\(String(describing: dayRemaining)) days until the race"
-        } else {
-            print("Impossible de calculer le nombre de jours restants")
-            raceDateLabel.text = race.date
-        }
+        let dateText = readableDateOrDaysUntil(dateString: meeting.dateStart)
+        raceDateLabel.text = dateText
+    
         
         raceDateLabel.font = UIFont.systemFont(ofSize: 11)
         raceDateLabel.textColor = .gray
-        raceNameLabel.text = race.raceName
-        raceNameLabel.font = UIFont.boldSystemFont(ofSize: 18)
-        raceCircuitNameLabel.text = race.circuit.circuitName
+        raceNameLabel.text = meeting.meetingName
+        raceNameLabel.font = UIFont.boldSystemFont(ofSize: 16)
+        raceCircuitNameLabel.text = meeting.circuitShortName
         raceCircuitNameLabel.font = UIFont.systemFont(ofSize: 11)
         raceCircuitNameLabel.textColor = .gray
-        raceLocationLabel.text = "\(race.circuit.location.locality), \(race.circuit.location.country)"
+        raceLocationLabel.text = "\(meeting.countryName)"
         raceLocationLabel.font = UIFont.systemFont(ofSize: 11)
         raceLocationLabel.textColor = .gray
     }
     
-    func daysUntil(dateString: String) -> Int? {
+    func readableDateOrDaysUntil(dateString: String) -> String {
         let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "yyyy-MM-dd"
+        dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss"
+        dateFormatter.locale = Locale(identifier: "fr_FR")
         
         guard let targetDate = dateFormatter.date(from: dateString) else {
             print("Erreur de formatage de la date")
-            return nil
+            return "Date Invalide"
         }
         
         let currentDate = Date()
         let calendar = Calendar.current
-        let currentDateComponents = calendar.dateComponents([.year, .month, .day], from: currentDate)
-        let currentDateOnly = calendar.date(from: currentDateComponents)!
-        let components = calendar.dateComponents([.day], from: currentDateOnly, to: targetDate)
         
-        return components.day
+        if currentDate > targetDate {
+            dateFormatter.dateFormat = "d MMMM yyyy 'à' HH:mm"
+            return "Le \(dateFormatter.string(from: targetDate))"
+        } else {
+            let components = calendar.dateComponents([.day], from: currentDate, to: targetDate)
+            if let day = components.day, day >= 0 {
+                return "\(day) jour(s) restant(s)"
+            } else {
+                return "Date invalide"
+            }
+        }
+        
     }
+    
+    
 }
 
 func countryFlagEmoji(fromCountryCode countryCode: String) -> String {
@@ -192,11 +207,9 @@ func countryFlagEmoji(fromCountryCode countryCode: String) -> String {
 }
 
 func isoCountryCode(fromCountryName countryName: String) -> String? {
+    print(countryName)
     let specialCases: [String: String] = [
-        "UAE": "AE",
-        "USA": "US",
-        "UK": "GB", // GB est le code ISO pour le Royaume-Uni (United Kingdom)
-        "China": "CN"
+        "Great Britain": "GB", // GB est le code ISO pour le Royaume-Uni (United Kingdom)
     ]
     
     if let specialCode = specialCases[countryName] {
@@ -204,7 +217,7 @@ func isoCountryCode(fromCountryName countryName: String) -> String? {
     }
     
     let currentLocale = Locale.current
-
+    
     if #available(iOS 16.0, *) {
         for region in Locale.Region.isoRegions {
             if let localizedCountryName = currentLocale.localizedString(forRegionCode: region.identifier),
@@ -222,78 +235,21 @@ func isoCountryCode(fromCountryName countryName: String) -> String? {
             }
         }
     }
-
+    
     return nil
 }
 
-struct F1ApiResponse: Decodable {
-    let mrData: MRData
-    
-    private enum CodingKeys: String, CodingKey {
-        case mrData = "MRData"
-    }
-}
-
-struct MRData: Decodable {
-    let raceTable: RaceTable
-    
-    private enum CodingKeys: String, CodingKey {
-        case raceTable = "RaceTable"
-    }
-}
-
-struct RaceTable: Decodable {
-    let season: String
-    let races: [Race]
-    
-    private enum CodingKeys: String, CodingKey {
-        case season = "season"
-        case races = "Races"
-    }
-}
-
-struct Race: Decodable {
-    let season: String
-    let round: String
-    let url: String
-    let raceName: String
-    let circuit: Circuit
-    let date: String
-    
-    private enum CodingKeys: String, CodingKey {
-        case season = "season"
-        case round = "round"
-        case url = "url"
-        case raceName = "raceName"
-        case circuit = "Circuit"
-        case date = "date"
-    }
-}
-
-struct Circuit: Decodable {
-    let circuitId: String
-    let url: String
-    let circuitName: String
-    let location: Location
-    
-    private enum CodingKeys: String, CodingKey {
-        case circuitId = "circuitId"
-        case url = "url"
-        case circuitName = "circuitName"
-        case location = "Location"
-    }
-}
-
-struct Location: Decodable {
-    let lat: String
-    let long: String
-    let locality: String
-    let country: String
-    
-    private enum CodingKeys: String, CodingKey {
-        case lat = "lat"
-        case long = "long"
-        case locality = "locality"
-        case country = "country"
-    }
+struct Meeting: Decodable {
+    let meetingName: String
+    let meetingOfficialName: String
+    let location: String
+    let countryKey: Int
+    let countryCode: String
+    let countryName: String
+    let circuitKey: Int
+    let circuitShortName: String
+    let dateStart: String
+    let gmtOffset: String
+    let meetingKey: Int
+    let year: Int
 }
