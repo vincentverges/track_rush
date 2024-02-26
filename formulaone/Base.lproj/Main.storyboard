@@ -58,6 +58,15 @@
                                 <rect key="frame" x="16" y="181" width="361" height="211"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             </imageView>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="oI0-aM-u3K">
+                                <rect key="frame" x="243" y="409" width="107" height="35"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="Button"/>
+                                <buttonConfiguration key="configuration" style="filled" title="+ Calendar"/>
+                                <connections>
+                                    <action selector="ajouterAuCalendrierPressed:" destination="hdD-8g-WSZ" eventType="touchUpInside" id="RNt-22-slj"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="nn3-m2-6Fc"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>

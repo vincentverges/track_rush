@@ -21,5 +21,7 @@
 			</array>
 		</dict>
 	</dict>
+	<key>NSCalendarsUsageDescription</key>
+	<string>Nous avons besoin d&apos;accéder à votre calendrier pour ajouter des événements de course et vous aider à suivre les prochaines courses de Formule 1. Votre calendrier ne sera pas utilisé à d&apos;autres fins ni partagé.</string>
 </dict>
 </plist>
