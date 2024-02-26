@@ -7,13 +7,14 @@
 
 import UIKit
 import EventKit
+import EventKitUI
 
-class DetailRaceViewController: UIViewController {
+class DetailRaceViewController: UIViewController, EKEventEditViewDelegate {
     @IBOutlet var imageView: UIImageView!
+    @IBOutlet weak var addCalendarButton: UIButton!
     @IBAction func ajouterAuCalendrierPressed(_ sender: Any) {
         ajouterEvenementAuCalendrier()
     }
-    
     
     var selectedRace: Meeting?
     
@@ -21,10 +22,14 @@ class DetailRaceViewController: UIViewController {
         super.viewDidLoad()
         
         title = selectedRace?.meetingName
+        addCalendarButton.setTitle("Add to Calendar", for: .normal)
+        addCalendarButton.layer.cornerRadius = 10
+        addCalendarButton.backgroundColor = UIColor.systemTeal
+        addCalendarButton.setTitleColor(UIColor.white, for: .normal)
+        addCalendarButton.titleLabel?.font = UIFont.boldSystemFont(ofSize: 16)
         
         if let selectedRace = selectedRace {
             let imageName = "\(selectedRace.circuitKey).png"
-            //print(imageName)
             imageView.image = UIImage(named: imageName)
         }
         
@@ -39,6 +44,22 @@ class DetailRaceViewController: UIViewController {
         super.viewWillDisappear(animated)
         navigationController?.hidesBarsOnTap = false
     }
+
+    func eventEditViewController(_ controller: EKEventEditViewController, didCompleteWith action: EKEventEditViewAction) {
+        dismiss(animated: true, completion: nil)
+
+        switch action {
+        case .canceled:
+            print("L'utilisateur a annulé.")
+        case .saved:
+            print("Événement enregistré.")
+        case .deleted:
+            print("L'événement a été supprimé.")
+        @unknown default:
+            print("Action inconnue.")
+        }
+    }
+
     
     func ajouterEvenementAuCalendrier() {
         let eventStore = EKEventStore()
@@ -61,14 +82,13 @@ class DetailRaceViewController: UIViewController {
                 event.startDate = DateFormatter.iso8601Full.date(from: selectedRace.dateStart)
                 event.endDate = event.startDate?.addingTimeInterval(7200) // Exemple: 2 heures après le début
                 event.location = "\(selectedRace.location), \(selectedRace.countryName)"
-                event.calendar = eventStore.defaultCalendarForNewEvents
                 
-                do {
-                    try eventStore.save(event, span: .thisEvent)
-                } catch {
-                    // Gérer l'erreur
-                    print("Erreur lors de la sauvegarde de l'événement dans le calendrier: \(error)")
-                }
+                let eventEditViewController = EKEventEditViewController()
+                eventEditViewController.event = event
+                eventEditViewController.eventStore = eventStore
+                eventEditViewController.editViewDelegate = strongSelf
+                
+                strongSelf.present(eventEditViewController, animated: true)
             }
         }
     }

@@ -55,14 +55,14 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="OTR-6m-T8c">
-                                <rect key="frame" x="16" y="181" width="361" height="211"/>
+                                <rect key="frame" x="16" y="236" width="361" height="211"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             </imageView>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="oI0-aM-u3K">
-                                <rect key="frame" x="243" y="409" width="107" height="35"/>
+                                <rect key="frame" x="16" y="455" width="361" height="35"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <state key="normal" title="Button"/>
-                                <buttonConfiguration key="configuration" style="filled" title="+ Calendar"/>
+                                <buttonConfiguration key="configuration" style="tinted" title="Button Callendar"/>
                                 <connections>
                                     <action selector="ajouterAuCalendrierPressed:" destination="hdD-8g-WSZ" eventType="touchUpInside" id="RNt-22-slj"/>
                                 </connections>
@@ -72,6 +72,7 @@
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                     </view>
                     <connections>
+                        <outlet property="addCalendarButton" destination="oI0-aM-u3K" id="ZI7-A0-WSJ"/>
                         <outlet property="imageView" destination="OTR-6m-T8c" id="Kgh-Dp-iIN"/>
                     </connections>
                 </viewController>
