@@ -15,6 +15,8 @@ class DetailRaceViewController: UIViewController, EKEventEditViewDelegate {
     @IBAction func ajouterAuCalendrierPressed(_ sender: Any) {
         ajouterEvenementAuCalendrier()
     }
+    @IBAction func showDriversListSegue(_ sender: Any) {
+    }
     
     var meeting: Meeting?
     
@@ -32,6 +34,14 @@ class DetailRaceViewController: UIViewController, EKEventEditViewDelegate {
         
     }
     
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "racersList" {
+            if let destinationVC = segue.destination as? ListDriverViewController {
+                destinationVC.meeting = self.meeting
+            }
+        }
+    }
+    
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         navigationController?.hidesBarsOnTap = true
@@ -41,7 +51,7 @@ class DetailRaceViewController: UIViewController, EKEventEditViewDelegate {
         super.viewWillDisappear(animated)
         navigationController?.hidesBarsOnTap = false
     }
-
+    
     func configureButton(_ button: UIButton, title: String, backgroundColor: UIColor, cornerRadius: CGFloat = 5) {
         button.setTitle(title, for: .normal)
         button.layer.cornerRadius = cornerRadius
@@ -52,7 +62,7 @@ class DetailRaceViewController: UIViewController, EKEventEditViewDelegate {
     
     func eventEditViewController(_ controller: EKEventEditViewController, didCompleteWith action: EKEventEditViewAction) {
         dismiss(animated: true, completion: nil)
-
+        
         switch action {
         case .canceled:
             print("L'utilisateur a annulé.")

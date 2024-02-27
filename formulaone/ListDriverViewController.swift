@@ -14,8 +14,7 @@ class ListDriverViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        title = "Racer List"
-        
+        print(meeting?.meetingName)
     }
     
 
