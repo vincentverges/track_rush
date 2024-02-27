@@ -59,7 +59,7 @@ class ViewController: UITableViewController {
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if let vc = storyboard?.instantiateViewController(withIdentifier: "Detail") as? DetailRaceViewController {
-            vc.selectedRace = meetingsResponse?[indexPath.row]
+            vc.meeting = meetingsResponse?[indexPath.row]
             navigationController?.pushViewController(vc, animated: true)
         }
     }

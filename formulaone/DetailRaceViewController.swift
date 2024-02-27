@@ -16,17 +16,17 @@ class DetailRaceViewController: UIViewController, EKEventEditViewDelegate {
         ajouterEvenementAuCalendrier()
     }
     
-    var selectedRace: Meeting?
+    var meeting: Meeting?
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        title = selectedRace?.meetingName
+        title = meeting?.meetingName
         
         configureButton(addCalendarButton, title: "Add to Calendar", backgroundColor: UIColor.systemTeal)
         
-        if let selectedRace = selectedRace {
-            let imageName = "\(selectedRace.circuitKey).png"
+        if let meeting = meeting {
+            let imageName = "\(meeting.circuitKey).png"
             imageView.image = UIImage(named: imageName)
         }
         
@@ -64,7 +64,6 @@ class DetailRaceViewController: UIViewController, EKEventEditViewDelegate {
             print("Action inconnue.")
         }
     }
-
     
     func ajouterEvenementAuCalendrier() {
         let eventStore = EKEventStore()
@@ -77,16 +76,16 @@ class DetailRaceViewController: UIViewController, EKEventEditViewDelegate {
                     print("Erreur lors de la demande d'accès complet aux événements : \(error.localizedDescription)...")
                 }
                 
-                guard granted, let strongSelf = self, let selectedRace = strongSelf.selectedRace else {
+                guard granted, let strongSelf = self, let meeting = strongSelf.meeting else {
                     print("Accès complet aux événements du calendrier refusé")
                     return
                 }
                 
                 let event = EKEvent(eventStore: eventStore)
-                event.title = selectedRace.meetingName
-                event.startDate = DateFormatter.iso8601Full.date(from: selectedRace.dateStart)
+                event.title = meeting.meetingName
+                event.startDate = DateFormatter.iso8601Full.date(from: meeting.dateStart)
                 event.endDate = event.startDate?.addingTimeInterval(7200) // Exemple: 2 heures après le début
-                event.location = "\(selectedRace.location), \(selectedRace.countryName)"
+                event.location = "\(meeting.location), \(meeting.countryName)"
                 
                 let eventEditViewController = EKEventEditViewController()
                 eventEditViewController.event = event
