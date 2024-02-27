@@ -22,11 +22,8 @@ class DetailRaceViewController: UIViewController, EKEventEditViewDelegate {
         super.viewDidLoad()
         
         title = selectedRace?.meetingName
-        addCalendarButton.setTitle("Add to Calendar", for: .normal)
-        addCalendarButton.layer.cornerRadius = 10
-        addCalendarButton.backgroundColor = UIColor.systemTeal
-        addCalendarButton.setTitleColor(UIColor.white, for: .normal)
-        addCalendarButton.titleLabel?.font = UIFont.boldSystemFont(ofSize: 16)
+        
+        configureButton(addCalendarButton, title: "Add to Calendar", backgroundColor: UIColor.systemTeal)
         
         if let selectedRace = selectedRace {
             let imageName = "\(selectedRace.circuitKey).png"
@@ -45,6 +42,14 @@ class DetailRaceViewController: UIViewController, EKEventEditViewDelegate {
         navigationController?.hidesBarsOnTap = false
     }
 
+    func configureButton(_ button: UIButton, title: String, backgroundColor: UIColor, cornerRadius: CGFloat = 5) {
+        button.setTitle(title, for: .normal)
+        button.layer.cornerRadius = cornerRadius
+        button.backgroundColor = backgroundColor
+        button.setTitleColor(.white, for: .normal)
+        button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 16)
+    }
+    
     func eventEditViewController(_ controller: EKEventEditViewController, didCompleteWith action: EKEventEditViewAction) {
         dismiss(animated: true, completion: nil)
 
