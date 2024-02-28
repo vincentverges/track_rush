@@ -51,7 +51,6 @@ class ViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "RaceCell", for: indexPath) as! RaceTableViewCell
         if let meeting = meetingsResponse?[indexPath.row] {
-            //print(race.circuit.circuitId)
             cell.configure(with: meeting)
         }
         return cell
@@ -86,8 +85,6 @@ class ViewController: UITableViewController {
                 completion(.failure(NSError(domain: "DataErrorDomain", code: 0, userInfo: nil)))
                 return
             }
-            
-            //print("Receveid Data: \(String(data: data, encoding: .utf8) ?? "")")
             
             do {
                 let jsonDecoder = JSONDecoder()
@@ -207,7 +204,6 @@ func countryFlagEmoji(fromCountryCode countryCode: String) -> String {
 }
 
 func isoCountryCode(fromCountryName countryName: String) -> String? {
-    print(countryName)
     let specialCases: [String: String] = [
         "Great Britain": "GB", // GB est le code ISO pour le Royaume-Uni (United Kingdom)
     ]
