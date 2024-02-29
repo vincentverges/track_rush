@@ -4,9 +4,6 @@
 //
 //  Created by Vincent Verges on 27/02/2024.
 //
-// https://api.openf1.org/v1/sessions?circuit_key=22&meeting_key=1210&year=2023&session_name=Race
-//
-// https://api.openf1.org/v1/drivers?meeting_key=1210&session_key=9094
 
 import UIKit
 
@@ -35,12 +32,11 @@ class ListDriverViewController: UITableViewController
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        tableView.estimatedRowHeight = 110
-        tableView.rowHeight = UITableView.automaticDimension
         performApiCalls()
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        print("COUNT \(drivers.count)")
         return drivers.count
     }
     
@@ -50,17 +46,20 @@ class ListDriverViewController: UITableViewController
         }
         
         let driver = drivers[indexPath.row]
-        
-        let countryCode = isoCountryCode(fromCountryName: driver.countryCode ?? "")
-        let flagEmoji = countryCode.flatMap { countryFlagEmoji(fromCountryCode: $0) } ?? ""
-        
         cell.driverImageView.image = nil
-        cell.driverNameView.text = "\(driver.fullName) \(flagEmoji)"
+        
+        let countryCode = driver.countryCode ?? ""
+    
+        if let flagEmoji = countryFlagEmoji(forCountryCode: countryCode) {
+            cell.driverNameView.text = "\(driver.fullName) \(flagEmoji)"
+        } else {
+            cell.driverNameView.text = driver.fullName
+        }
+        
         cell.driverInformationsView.text = "Team : \(driver.teamName ?? "Unknown")"
         cell.driverNumberView.text = "\(driver.driverNumber)"
-        print(driver.countryCode ?? "none")
         
-        if let customColor = UIColor(hex: driver.teamColour ?? "000000") {
+        if let customColor = UIColor(hex: driver.teamColour ?? "F3F3F3") {
                 cell.backgroundColor = customColor
             }
         
@@ -74,6 +73,8 @@ class ListDriverViewController: UITableViewController
                     }
                 }
             }.resume()
+        } else {
+            cell.driverImageView.image = UIImage(named: "anonymous.png")
         }
         
         return cell
@@ -137,45 +138,28 @@ class ListDriverViewController: UITableViewController
         driversTask.resume()
     }
     
-    func countryFlagEmoji(fromCountryCode countryCode: String) -> String {
-        return countryCode
-            .unicodeScalars
-            .map { 127397 + $0.value }
-            .compactMap(UnicodeScalar.init)
-            .map(String.init)
-            .joined()
-    }
-
-    func isoCountryCode(fromCountryName countryName: String) -> String? {
-        let specialCases: [String: String] = [
-            "Great Britain": "GB", // GB est le code ISO pour le Royaume-Uni (United Kingdom)
+    func countryFlagEmoji(forCountryCode countryCode: String) -> String? {
+        let countryCodes: [String : String] = [
+            "NED" : "NL",
+            "FRA" : "FR",
+            "GBR" : "GB",
+            "ESP" : "ES",
+            "CHN" : "CN",
+            "JPN" : "JP",
+            "FIN" : "FI",
+            "AUS" : "AU",
+            "GER" : "DE",
+            "USA" : "US",
+            "CAN" : "CA",
+            "MON" : "MC",
+            "MEX" : "MX",
+            "THA" : "TH",
+            "DEN" : "DK"
         ]
         
-        if let specialCode = specialCases[countryName] {
-            return specialCode
-        }
+        guard let alpha2Code = countryCodes[countryCode] else { return "" }
         
-        let currentLocale = Locale.current
-        
-        if #available(iOS 16.0, *) {
-            for region in Locale.Region.isoRegions {
-                if let localizedCountryName = currentLocale.localizedString(forRegionCode: region.identifier),
-                   localizedCountryName == countryName {
-                    return region.identifier
-                }
-            }
-        } else {
-            // Pour les versions iOS antérieures à iOS 16, utilisez l'approche précédente
-            let countryCodes = Locale.isoRegionCodes
-            for code in countryCodes {
-                if let localizedCountryName = currentLocale.localizedString(forRegionCode: code),
-                   localizedCountryName == countryName {
-                    return code
-                }
-            }
-        }
-        
-        return nil
+        return alpha2Code.unicodeScalars.map { 127397 + $0.value }.compactMap(UnicodeScalar.init).map(String.init).joined()
     }
     
 }
