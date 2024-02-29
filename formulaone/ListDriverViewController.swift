@@ -6,21 +6,29 @@
 //
 
 import UIKit
+import CoreData
 
 extension UIColor {
     convenience init?(hex: String) {
         var hexSanitized = hex.trimmingCharacters(in: .whitespacesAndNewlines)
         hexSanitized = hexSanitized.replacingOccurrences(of: "#", with: "")
-
+        
         var rgb: UInt64 = 0
-
+        
         Scanner(string: hexSanitized).scanHexInt64(&rgb)
-
+        
         let red = CGFloat((rgb & 0xFF0000) >> 16) / 255.0
         let green = CGFloat((rgb & 0x00FF00) >> 8) / 255.0
         let blue = CGFloat(rgb & 0x0000FF) / 255.0
-
+        
         self.init(red: red, green: green, blue: blue, alpha: 1.0)
+    }
+}
+
+extension ListDriverViewController: DriverCellDelegate {
+    func didTapFavoriteButton(for driver: Driver) {
+        toggleFavoriteState(for: driver)
+        tableView.reloadData()
     }
 }
 
@@ -36,7 +44,7 @@ class ListDriverViewController: UITableViewController
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        print("COUNT \(drivers.count)")
+        
         return drivers.count
     }
     
@@ -46,22 +54,34 @@ class ListDriverViewController: UITableViewController
         }
         
         let driver = drivers[indexPath.row]
+        
+        cell.driver = driver
+        cell.delegate = self
+        
+        if isDriverFavorite(driver: driver) {
+            cell.favoriteButton.backgroundColor = UIColor.clear
+            cell.favoriteButton.setTitle("\u{2764}\u{FE0F}", for: .normal)
+        } else {
+            cell.favoriteButton.backgroundColor = UIColor.clear
+            cell.favoriteButton.setTitle("\u{1F90D}", for: .normal)
+        }
+        
         cell.driverImageView.image = nil
         
         let countryCode = driver.countryCode ?? ""
-    
+        
         if let flagEmoji = countryFlagEmoji(forCountryCode: countryCode) {
             cell.driverNameView.text = "\(driver.fullName) \(flagEmoji)"
         } else {
             cell.driverNameView.text = driver.fullName
         }
         
-        cell.driverInformationsView.text = "Team : \(driver.teamName ?? "Unknown")"
+        cell.driverInformationsView.text = "Team : \(driver.teamName ?? "Not disclosed")"
         cell.driverNumberView.text = "\(driver.driverNumber)"
         
-        if let customColor = UIColor(hex: driver.teamColour ?? "F3F3F3") {
-                cell.backgroundColor = customColor
-            }
+        if let customColor = UIColor(hex: driver.teamColour ?? "A5A5A5") {
+            cell.backgroundColor = customColor
+        }
         
         if let headshotURLString = driver.headshotURL, let imageURL = URL(string: headshotURLString) {
             URLSession.shared.dataTask(with: imageURL) { data, response, error in
@@ -136,6 +156,78 @@ class ListDriverViewController: UITableViewController
         }
         
         driversTask.resume()
+    }
+    
+    func toggleFavoriteState(for driver: Driver) {
+        let isFavorite = isDriverFavorite(driver: driver)
+        
+        if isFavorite {
+            // Le pilote est déjà un favori, le supprimer des favoris
+            removeDriverFromFavorites(driver: driver)
+        } else {
+            // Le pilote n'est pas un favori, l'ajouter aux favoris
+            addDriverToFavorites(driver: driver)
+        }
+    }
+    
+    func isDriverFavorite(driver: Driver) -> Bool {
+        guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else { return false }
+        let managedContext = appDelegate.persistentContainer.viewContext
+        let fetchRequest: NSFetchRequest<FavoriteDriver> = FavoriteDriver.fetchRequest()
+        
+        fetchRequest.predicate = NSPredicate(format: "fullName == %@", driver.fullName)
+        
+        do {
+            let results = try managedContext.fetch(fetchRequest)
+            return !results.isEmpty
+        } catch let error as NSError {
+            print("Impossible de vérifier le statut favori. \(error), \(error.userInfo)")
+            return false
+        }
+    }
+    
+    func addDriverToFavorites(driver: Driver) {
+        guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else { return }
+        let managedContext = appDelegate.persistentContainer.viewContext
+        
+        let favoriteDriver = FavoriteDriver(context: managedContext)
+        favoriteDriver.driverNumber = Int16(driver.driverNumber)
+        favoriteDriver.broadcastName = driver.broadcastName
+        favoriteDriver.fullName = driver.fullName
+        favoriteDriver.nameAcronym = driver.nameAcronym
+        favoriteDriver.teamName = driver.teamName
+        favoriteDriver.teamColour = driver.teamColour
+        favoriteDriver.firstName = driver.firstName
+        favoriteDriver.lastName = driver.lastName
+        favoriteDriver.headshotURL = driver.headshotURL
+        favoriteDriver.countryCode = driver.countryCode
+        favoriteDriver.sessionKey = Int32(driver.sessionKey)
+        favoriteDriver.meetingKey = Int32(driver.meetingKey)
+        
+        do {
+            try managedContext.save()
+            print("Sauvegardé avec succès en favoris")
+        } catch let error as NSError {
+            print("Impossible de sauvegarder en favoris. \(error), \(error.userInfo)")
+        }
+        
+    }
+    
+    func removeDriverFromFavorites(driver: Driver) {
+        guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else { return }
+        let managedContext = appDelegate.persistentContainer.viewContext
+        let fetchRequest: NSFetchRequest<FavoriteDriver> = FavoriteDriver.fetchRequest()
+        fetchRequest.predicate = NSPredicate(format: "fullName == %@", driver.fullName)
+        
+        do {
+            let results = try managedContext.fetch(fetchRequest)
+            for object in results {
+                managedContext.delete(object)
+            }
+            try managedContext.save()
+        } catch let error as NSError {
+            print("Impossible de supprimer des favoris. \(error), \(error.userInfo)")
+        }
     }
     
     func countryFlagEmoji(forCountryCode countryCode: String) -> String? {

@@ -7,11 +7,28 @@
 
 import UIKit
 
+protocol DriverCellDelegate: AnyObject {
+    func didTapFavoriteButton(for driver: Driver)
+}
+
 class DriverTableViewCell: UITableViewCell {
+    weak var delegate: DriverCellDelegate?
+    var driver: Driver?
+    
+    
+    @IBOutlet var favoriteButton: UIButton!
+    @IBAction func favoriteButton(_ sender: UIButton) {
+        if let driver = driver {
+            delegate?.didTapFavoriteButton(for: driver)
+        }
+    }
+    
     @IBOutlet var driverImageView: UIImageView!
     @IBOutlet var driverNameView: UILabel!
     @IBOutlet var driverInformationsView: UILabel!
     @IBOutlet var driverNumberView: UILabel!
+    
+    
     
     override func awakeFromNib() {
         super.awakeFromNib()
