@@ -25,7 +25,7 @@ class CalendarSection: UITableViewCell {
     
     override func awakeFromNib() {
         super.awakeFromNib()
-        configureButton(addCalendarButton, title: "Add to Calendar", backgroundColor: UIColor.systemTeal)
+        configureButton(addCalendarButton, title: "\u{23F0} Add to Calendar", backgroundColor: UIColor.systemTeal)
         
         raceDateView.font = UIFont.boldSystemFont(ofSize: 18)
         raceHourView.font = UIFont.systemFont(ofSize: 14)

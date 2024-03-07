@@ -9,11 +9,11 @@ import UIKit
 
 class TrackDetailSection: UITableViewCell {
     @IBOutlet var trackImageView: UIImageView!
+    @IBOutlet var driverListButtonView: UIButton!
     
     
     override func awakeFromNib() {
         super.awakeFromNib()
-        // Initialization code
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {

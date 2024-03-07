@@ -83,6 +83,7 @@
                                             </subviews>
                                         </tableViewCellContentView>
                                         <connections>
+                                            <outlet property="driverListButtonView" destination="RlG-Mz-UhJ" id="dJt-Wq-iIs"/>
                                             <outlet property="trackImageView" destination="OTR-6m-T8c" id="Inr-dP-BKE"/>
                                         </connections>
                                     </tableViewCell>

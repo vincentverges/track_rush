@@ -23,7 +23,6 @@ extension DetailRaceViewController: CalendarSectionDelegate {
             DispatchQueue.main.async {
                 
                 if let error = error {
-                    // Afficher les détails de l'erreur si la demande échoue
                     print("Erreur lors de la demande d'accès complet aux événements : \(error.localizedDescription)...")
                 }
                 
@@ -35,7 +34,7 @@ extension DetailRaceViewController: CalendarSectionDelegate {
                 let event = EKEvent(eventStore: eventStore)
                 event.title = meeting.meetingName
                 event.startDate = DateFormatter.iso8601Full.date(from: meeting.dateStart)
-                event.endDate = event.startDate?.addingTimeInterval(7200) // Exemple: 2 heures après le début
+                event.endDate = event.startDate?.addingTimeInterval(7200)
                 event.location = "\(meeting.location), \(meeting.countryName)"
                 
                 let eventEditViewController = EKEventEditViewController()
@@ -59,6 +58,7 @@ class DetailRaceViewController: UIViewController, UITableViewDataSource, UITable
     
     
     var meeting: Meeting?
+    var weathers: [Weather] = []
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -67,6 +67,8 @@ class DetailRaceViewController: UIViewController, UITableViewDataSource, UITable
         
         tableView.dataSource = self
         tableView.delegate = self
+        
+        performApiCalls()
         
     }
     
@@ -131,6 +133,9 @@ class DetailRaceViewController: UIViewController, UITableViewDataSource, UITable
                 let imageName = "\(meeting.circuitKey).png"
                 cell.trackImageView.image = UIImage(named: imageName)
             }
+            
+            cell.driverListButtonView.setTitle("\u{1F3CE} Driver List", for: .normal) 
+            
             return cell
         case .calendar:
             guard let cell = tableView.dequeueReusableCell(withIdentifier: "CalendarSection", for: indexPath) as? CalendarSection else {
@@ -138,7 +143,6 @@ class DetailRaceViewController: UIViewController, UITableViewDataSource, UITable
             }
             if let meeting = meeting {
                 
-                print(meeting.dateStart)
                 let isoDate = meeting.dateStart
                 
                 let dateFormatterDate = DateFormatter()
@@ -148,7 +152,7 @@ class DetailRaceViewController: UIViewController, UITableViewDataSource, UITable
                 if let date = dateFormatterDate.date(from: isoDate) {
                     dateFormatterDate.dateFormat = "EEEE, MMM d, yyyy"
                     let readableDate = dateFormatterDate.string(from: date)
-                    cell.raceDateView.text = readableDate
+                    cell.raceDateView.text = "\u{1F4C5} \(readableDate)"
                 }
                 
                 let dateFormatterHour = DateFormatter()
@@ -158,7 +162,7 @@ class DetailRaceViewController: UIViewController, UITableViewDataSource, UITable
                 if let hour = dateFormatterHour.date(from: isoDate) {
                     dateFormatterHour.dateFormat = "HH:mm:ss"
                     let readableHour = dateFormatterHour.string(from: hour)
-                    cell.raceHourView.text = "Race Start at \(readableHour)"
+                    cell.raceHourView.text = "\u{1F55B} \(readableHour)"
                 }
                 
             }
@@ -187,5 +191,84 @@ class DetailRaceViewController: UIViewController, UITableViewDataSource, UITable
         }
     }
     
+    func performApiCalls() {
+        
+        guard let meeting = meeting else {
+            print("Les informations de la réunion sont manquantes ou incomplètes.")
+            return
+        }
+        
+        guard let sessionUrl = URL(string: "https://api.openf1.org/v1/sessions?circuit_key=\(meeting.circuitKey)&meeting_key=\(meeting.meetingKey)&year=\(meeting.year)&session_name=Race") else { return }
+        
+        let sessionTask = URLSession.shared.dataTask(with: sessionUrl) { [weak self] data, response, error in
+            guard let data = data, error == nil else { return }
+            
+            do {
+                let response = try JSONDecoder().decode([Session].self, from: data)
+                if let sessionKey = response.first?.sessionKey {
+                    
+                    self?.fetchWeather(with: sessionKey)
+                } else {
+                    print("No Session Key Find")
+                }
+                
+            } catch {
+                print(error)
+            }
+        }
+        
+        sessionTask.resume()
+    }
+    
+    func fetchWeather(with sessionKey: Int) {
+        guard let meeting = meeting else {
+            print("Les informations de la réunion sont manquantes ou incomplètes.")
+            return
+        }
+        
+        guard let weathersUrl = URL(string: "https://api.openf1.org/v1/weather?meeting_key=\(meeting.meetingKey)&session_key=\(sessionKey)") else { return }
+        
+        let weathersTask = URLSession.shared.dataTask(with: weathersUrl) { [weak self] data, response, error in
+            guard let data = data, error == nil else { return }
+            
+            do {
+                let response = try JSONDecoder().decode([Weather].self, from: data)
+                DispatchQueue.main.async {
+                    self?.weathers = response
+                    self?.tableView.reloadData()
+                }
+            } catch {
+                print(error)
+            }
+        }
+        
+        weathersTask.resume()
+    }
+    
 }
 
+struct Weather: Decodable {
+    let airTemperature: Double
+    let humidity: Double
+    let pressure: Double
+    let rainfall: Double
+    let trackTemperature: Double
+    let windDirection: Int
+    let windSpeed: Double
+    let date: String
+    let sessionKey: Int
+    let meetingKey: Int
+
+    enum CodingKeys: String, CodingKey {
+        case airTemperature = "air_temperature"
+        case humidity
+        case pressure
+        case rainfall
+        case trackTemperature = "track_temperature"
+        case windDirection = "wind_direction"
+        case windSpeed = "wind_speed"
+        case date
+        case sessionKey = "session_key"
+        case meetingKey = "meeting_key"
+    }
+}
