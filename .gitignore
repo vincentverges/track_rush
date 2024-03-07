@@ -1,0 +1,8 @@
+### Pod ###
+Podfile
+Podfile.lock
+Pods/
+
+### Drive MacOS###
+.DS_Store
+
