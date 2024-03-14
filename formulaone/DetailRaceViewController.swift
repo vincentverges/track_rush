@@ -110,11 +110,11 @@ class DetailRaceViewController: UIViewController, UITableViewDataSource, UITable
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
             if indexPath.section == DetailSection.trackDetails.rawValue {
-                return 300
+                return 330
             } else if indexPath.section == DetailSection.calendar.rawValue {
                 return 140
             } else {
-                return 300
+                return 200
             }
         }
     
@@ -130,11 +130,12 @@ class DetailRaceViewController: UIViewController, UITableViewDataSource, UITable
             }
             
             if let meeting = meeting {
+                cell.raceCompletNameView.text = meeting.meetingOfficialName
                 let imageName = "\(meeting.circuitKey).png"
                 cell.trackImageView.image = UIImage(named: imageName)
             }
             
-            cell.driverListButtonView.setTitle("\u{1F3CE} Driver List", for: .normal) 
+            cell.driverListButtonView.setTitle("\u{1F3CE} Start List", for: .normal)
             
             return cell
         case .calendar:
@@ -169,8 +170,26 @@ class DetailRaceViewController: UIViewController, UITableViewDataSource, UITable
             cell.delegate = self
             return cell
         case .meteo:
-            let cell = tableView.dequeueReusableCell(withIdentifier: "MeteoSection", for: indexPath)
-            cell.textLabel?.text = "La météo"
+            guard let cell = tableView.dequeueReusableCell(withIdentifier: "MeteoSection", for: indexPath) as? WeatherSection else {
+                fatalError("Impossible de créer une instance de CalendarSection")
+            }
+            cell.weatherTitleView.text = "Weather Cast"
+            
+            cell.airTemperatureTitleView.text = "\u{1F321} Air Temp"
+            cell.trackTemperatureTitle.text = "\u{1F321} Track Temp"
+            cell.windSpeedTitleView.text = "\u{1F32C} Wind Speed"
+            cell.windDirectionTitleView.text = "\u{1F32C} Wind Direction"
+            cell.rainfallTitleView.text = "\u{1F327} Rainfall"
+            cell.humidityTitleView.text = "\u{1F4A7} Humidity"
+            
+            if let firstWeather = weathers.first {
+                cell.airTemperatureView.text = "\(firstWeather.airTemperature)°C"
+                cell.trackTempertatureView.text = "\(firstWeather.trackTemperature)°C"
+                cell.windDirectionView.text = "\(firstWeather.windDirection)°"
+                cell.windSpeedView.text = "\(firstWeather.windSpeed)m/s"
+                cell.rainFallView.text = "\(firstWeather.rainfall)%"
+                cell.huimidityView.text = "\(firstWeather.humidity)%"
+            }
             return cell
         }
         
