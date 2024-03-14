@@ -5,17 +5,17 @@
 This project is a sample that use UIKit and Formula One API to make a Formula One Championship Information App.
 
 ### Races List of 2023 seaeson
-![](img/meetings_list.PNG)
+<img src="img/meetings_list.PNG" alt="image" width="50%" height="auto" style="display: block; margin: 0 auto">
 
 ### Description of a selected Race
-![](img/meeting_description.PNG)
+<img src="img/meeting_description.PNG" alt="image" width="50%" height="auto" style="display: block; margin: 0 auto">
 
 * All informations from the API
 * Add Calendar Button feature add the event to the user calendar
 * Weather from the Formula One API
 
 ### Start list of the drive from the selected Race
-![](img/drivers_list.PNG)
+<img src="img/drivers_list.PNG" alt="image" width="50%" height="auto" style="display: block; margin: 0 auto">
 
 #### In this case we have full informations from API
 
@@ -23,7 +23,7 @@ This project is a sample that use UIKit and Formula One API to make a Formula On
 * Background color match with driver's team. Information from the API
 * Use CoreData to add a driver as Favorite Driver. Heart emoji change color if it's Favorite.
 
-![](img/drivers_list_partial.PNG)
+<img src="img/drivers_list_partial.PNG" alt="image" width="50%" height="auto" style="display: block; margin: 0 auto">
 
 #### In this case we have partial informations from API
 
