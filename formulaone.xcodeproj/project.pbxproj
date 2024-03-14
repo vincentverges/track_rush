@@ -46,7 +46,6 @@
 		0ABC843E2B80BCE2000A09EE /* 152.png in Resources */ = {isa = PBXBuildFile; fileRef = 0ABC84262B80BCE2000A09EE /* 152.png */; };
 		0AD4D9F82B9099E400A86BD3 /* anonymous.png in Resources */ = {isa = PBXBuildFile; fileRef = 0AD4D9F72B9099E400A86BD3 /* anonymous.png */; };
 		0AD4D9FB2B90B67600A86BD3 /* FormulaOneDataModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 0AD4D9F92B90B67600A86BD3 /* FormulaOneDataModel.xcdatamodeld */; };
-		672E2029175FE201DA045A51 /* Pods_formulaone.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 563F4186EC41F4A35549DB11 /* Pods_formulaone.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -91,9 +90,6 @@
 		0ABC84262B80BCE2000A09EE /* 152.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = 152.png; path = "../../../../../Downloads/px-conversions (1)/152.png"; sourceTree = "<group>"; };
 		0AD4D9F72B9099E400A86BD3 /* anonymous.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = anonymous.png; sourceTree = "<group>"; };
 		0AD4D9FA2B90B67600A86BD3 /* FormulaOneDataModel.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = FormulaOneDataModel.xcdatamodel; sourceTree = "<group>"; };
-		563F4186EC41F4A35549DB11 /* Pods_formulaone.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_formulaone.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		B1F2150252526470892B7624 /* Pods-formulaone.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-formulaone.debug.xcconfig"; path = "Target Support Files/Pods-formulaone/Pods-formulaone.debug.xcconfig"; sourceTree = "<group>"; };
-		D1AF2AC784BF0FE357E374D4 /* Pods-formulaone.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-formulaone.release.xcconfig"; path = "Target Support Files/Pods-formulaone/Pods-formulaone.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -101,7 +97,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				672E2029175FE201DA045A51 /* Pods_formulaone.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -113,8 +108,6 @@
 			children = (
 				0A1723412B73D4A600A4CBD8 /* formulaone */,
 				0A1723402B73D4A600A4CBD8 /* Products */,
-				E5059982E991418449C55408 /* Pods */,
-				71744C6D12EF9D7C9988CE98 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -181,23 +174,6 @@
 			path = tracks;
 			sourceTree = "<group>";
 		};
-		71744C6D12EF9D7C9988CE98 /* Frameworks */ = {
-			isa = PBXGroup;
-			children = (
-				563F4186EC41F4A35549DB11 /* Pods_formulaone.framework */,
-			);
-			name = Frameworks;
-			sourceTree = "<group>";
-		};
-		E5059982E991418449C55408 /* Pods */ = {
-			isa = PBXGroup;
-			children = (
-				B1F2150252526470892B7624 /* Pods-formulaone.debug.xcconfig */,
-				D1AF2AC784BF0FE357E374D4 /* Pods-formulaone.release.xcconfig */,
-			);
-			path = Pods;
-			sourceTree = "<group>";
-		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -205,11 +181,9 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 0A1723532B73D4A700A4CBD8 /* Build configuration list for PBXNativeTarget "formulaone" */;
 			buildPhases = (
-				04A460CE7ACE95BAA2001A5B /* [CP] Check Pods Manifest.lock */,
 				0A17233B2B73D4A600A4CBD8 /* Sources */,
 				0A17233C2B73D4A600A4CBD8 /* Frameworks */,
 				0A17233D2B73D4A600A4CBD8 /* Resources */,
-				4A48D64C964EBF068A701376 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -291,48 +265,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
-
-/* Begin PBXShellScriptBuildPhase section */
-		04A460CE7ACE95BAA2001A5B /* [CP] Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
-				"${PODS_ROOT}/Manifest.lock",
-			);
-			name = "[CP] Check Pods Manifest.lock";
-			outputFileListPaths = (
-			);
-			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-formulaone-checkManifestLockResult.txt",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
-			showEnvVarsInLog = 0;
-		};
-		4A48D64C964EBF068A701376 /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-formulaone/Pods-formulaone-frameworks-${CONFIGURATION}-input-files.xcfilelist",
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-formulaone/Pods-formulaone-frameworks-${CONFIGURATION}-output-files.xcfilelist",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-formulaone/Pods-formulaone-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		0A17233B2B73D4A600A4CBD8 /* Sources */ = {
@@ -495,9 +427,7 @@
 		};
 		0A1723542B73D4A700A4CBD8 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = B1F2150252526470892B7624 /* Pods-formulaone.debug.xcconfig */;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = NO;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
@@ -526,9 +456,7 @@
 		};
 		0A1723552B73D4A700A4CBD8 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = D1AF2AC784BF0FE357E374D4 /* Pods-formulaone.release.xcconfig */;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = NO;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;

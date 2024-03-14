@@ -1,4 +1,4 @@
-#  Track Rush Projetc
+#  Track Rush Project
 
 ## App Description
 
